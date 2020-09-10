@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.gasbuddy.imageloading.AppUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="model"
+            type="com.gasbuddy.models.PhotoDetails" />
+
+        <variable
+            name="viewmodel"
+            type="com.gasbuddy.viewmodel.ImagesViewModel" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/spinnerLoading"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:visibility="@{viewmodel.loading}" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/contentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewmodel.loading==View.GONE?View.VISIBLE:View.GONE}"
+                tools:context=".activity.ImageDetailsActivity">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/relTopBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:contentInsetEnd="0dp"
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetRight="0dp"
+                    app:contentInsetStart="0dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:titleTextColor="@color/colorWhite">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/imgBack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:background="?attr/selectableItemBackground"
+                            android:drawableStart="@drawable/ic_back"
+                            android:drawablePadding="@dimen/seven_dp"
+                            android:padding="@dimen/ten_dp"
+                            android:text="@string/back"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/seventeen_sp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtImageName"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:layout_margin="@dimen/five_dp"
+                            android:layout_toEndOf="@id/imgBack"
+                            android:gravity="center_vertical"
+                            android:paddingStart="@dimen/ten_dp"
+                            android:paddingEnd="@dimen/ten_dp"
+                            android:text="@{model.volumeInfo==null?model.id:model.volumeInfo.title}"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/seventeen_sp" />
+
+                    </RelativeLayout>
+
+                </androidx.appcompat.widget.Toolbar>
+
+                <View
+                    android:id="@+id/seperator"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/one_dp"
+                    android:background="@color/colorBlack"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/relTopBar" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/fifteen_dp"
+                    app:imageUrlItem='@{model}'
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/seperator" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtDateLabel"
+                    style="@style/HeadingTextView"
+                    android:text="@string/date"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imgPhoto" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtDate"
+                    style="@style/ValueTextView"
+                    android:text="@{model.createdAt==null?model.volumeInfo.publishedDate:AppUtils.formattedDateFromString(model.createdAt)}"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/txtDateLabel"
+                    app:layout_constraintTop_toBottomOf="@id/imgPhoto" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtDescriptionLabel"
+                    style="@style/HeadingTextView"
+                    android:text="@string/description"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtDate" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtDescription"
+                    style="@style/ValueTextView"
+                    android:text="@{model.description==null?model.volumeInfo.title:model.description}"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/txtDescriptionLabel"
+                    app:layout_constraintTop_toBottomOf="@id/txtDate" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtAltDescriptionLabel"
+                    style="@style/HeadingTextView"
+                    android:text="@string/alternate_description"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtDescription" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtAltDescription"
+                    style="@style/ValueTextView"
+                    android:text="@{model.altDescription==null?model.volumeInfo.description:model.altDescription}"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/txtAltDescriptionLabel"
+                    app:layout_constraintTop_toBottomOf="@id/txtDescription" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtLikesLabel"
+                    style="@style/HeadingTextView"
+                    android:text="@string/likes"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtAltDescription" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtLikes"
+                    style="@style/ValueTextView"
+                    android:text="@{String.valueOf(model.likes)}"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/txtLikesLabel"
+                    app:layout_constraintTop_toBottomOf="@id/txtAltDescription" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtViewsLabel"
+                    style="@style/HeadingTextView"
+                    android:text="@string/views"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtLikes" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtViews"
+                    style="@style/ValueTextView"
+                    android:text="@{String.valueOf(model.views)}"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/txtViewsLabel"
+                    app:layout_constraintTop_toBottomOf="@id/txtLikes" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtDownloadsLabel"
+                    style="@style/HeadingTextView"
+                    android:text="@string/downloads"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtViews" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtDownloads"
+                    style="@style/ValueTextView"
+                    android:text="@{String.valueOf(model.downloads)}"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/txtDownloadsLabel"
+                    app:layout_constraintTop_toBottomOf="@id/txtViews" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</layout>

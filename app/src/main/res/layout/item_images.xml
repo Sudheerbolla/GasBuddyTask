@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="position"
+            type="java.lang.Integer" />
+
+        <import type="android.widget.LinearLayout" />
+
+        <!--<import type="android.view.Gravity" />-->
+
+        <variable
+            name="viewModel"
+            type="com.gasbuddy.viewmodel.ImagesViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> viewModel.onItemClick(position)}"
+        app:cardBackgroundColor="@color/colorWhite"
+        app:cardCornerRadius="@dimen/five_dp"
+        app:cardElevation="@dimen/three_dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="@dimen/five_dp">
+
+        <LinearLayout
+            android:id="@+id/linBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:orientation="@{(viewModel.mode==0?LinearLayout.VERTICAL:LinearLayout.HORIZONTAL)}">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgPhoto"
+                android:layout_width="@dimen/hundred_dp"
+                android:layout_height="@dimen/hundred_dp"
+                android:layout_gravity="center"
+                android:background="?attr/selectableItemBackground"
+                android:padding="@dimen/seven_dp"
+                app:imageUrl="@{viewModel.getPhotoAt(position)}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:maxLines="@{(viewModel.mode==0?4:3)}"
+                android:padding="@dimen/five_dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/seventeen_sp"
+                app:description="@{viewModel.getPhotoAt(position)}" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
+

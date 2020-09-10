@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">GasBuddy</string>
+    <string name="welcome">Welcome</string>
+    <string name="search_for_images_here">Search for images here . . . .</string>
+    <string name="no_data_found">No data found</string>
+    <string name="back">Back</string>
+    <string name="date">Date</string>
+    <string name="description">Description</string>
+    <string name="downloads">Downloads</string>
+    <string name="views">Views</string>
+    <string name="likes">Likes</string>
+    <string name="alternate_description">Alternate Description</string>
+    <string name="use_cache">Use Caching</string>
+
+    <string-array name="datasources">
+        <item>UnSplash</item>
+        <item>Google</item>
+    </string-array>
+    <string-array name="networksource">
+        <item>Retrofit</item>
+        <item>Async Call</item>
+    </string-array>
+</resources>
